@@ -10,7 +10,8 @@ public class FlashLight : MonoBehaviour
     public float batteryLevel = 100f; // Initial battery level
     public float DecreaseBatteryChargePercentage; // Time in seconds to decrease battery by 1%
     private bool isFlickering = false;
-
+    public float RayMaxdistance = 300;
+    public int raysCount = 60;
     void Start()
     {
         PickUpManager.instance.CurntBatteryLevel = batteryLevel;
@@ -82,20 +83,27 @@ public class FlashLight : MonoBehaviour
         if (spotlight != null && spotlight.enabled)
         {
             RaycastHit hit;
-            
-            if (Physics.Raycast(spotlight.transform.position, spotlight.transform.forward, out hit,Mathf.Infinity))
+         
+            for (int i = 0; i < raysCount; i++)
             {
-                Debug.DrawRay(spotlight.transform.position, spotlight.transform.forward, Color.red, Mathf.Infinity);
-
-                GameObject EnemyAIhitbyraycast = hit.transform.gameObject;
-                if (EnemyAIhitbyraycast.GetComponent<EnemyAI>())
+                float angle = ((float)i / (raysCount - 1) - 0.5f) * spotlight.spotAngle; // Spread rays within the cone
+                Quaternion rotation = Quaternion.AngleAxis(angle, spotlight.transform.up);
+                Vector3 rayDirection = rotation * spotlight.transform.forward;
+                if (Physics.Raycast(spotlight.transform.position, rayDirection, out hit, RayMaxdistance))
                 {
-                    EnemyAI AI = EnemyAIhitbyraycast.GetComponent<EnemyAI>();
-                    AI.CheckSpotlight();
-                }
-                
+                    Debug.DrawRay(spotlight.transform.position, rayDirection, Color.red, RayMaxdistance);
 
+                    GameObject EnemyAIhitbyraycast = hit.transform.gameObject;
+                    if (EnemyAIhitbyraycast.GetComponent<EnemyAI>())
+                    {
+                        EnemyAI AI = EnemyAIhitbyraycast.GetComponent<EnemyAI>();
+                        AI.CheckSpotlight();
+                    }
+
+
+                }
             }
+                
            
         }
 

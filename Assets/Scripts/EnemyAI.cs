@@ -31,7 +31,11 @@ public class EnemyAI : MonoBehaviour
     {
         if (isActivated && !isAvoidingLight && target != null)
         {
-            ResumeChase();
+            if (target != null)
+            {
+                agent.SetDestination(target.position);
+            }
+            agent.speed = normalSpeed;
         }
     }
 
