@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 
@@ -14,7 +15,7 @@ public class FlashLight : MonoBehaviour
     {
         PickUpManager.instance.CurntBatteryLevel = batteryLevel;
         spotlight = GetComponent<Light>();
-        
+
         if (spotlight == null)
         {
             Debug.LogError("Spotlight is not assigned!");
@@ -28,6 +29,7 @@ public class FlashLight : MonoBehaviour
     {
         LightSettings();
         DrainBattery();
+        ActivateEnemy();
     }
 
     public void LightSettings()
@@ -50,7 +52,7 @@ public class FlashLight : MonoBehaviour
             {
                 spotlight.intensity = 2.5f;
             }
-           
+
         }
     }
     public void DrainBattery()
@@ -75,7 +77,29 @@ public class FlashLight : MonoBehaviour
         spotlight.enabled = batteryLevel > 0;
         isFlickering = false;
     }
+    void ActivateEnemy()
+    {
+        if (spotlight != null && spotlight.enabled)
+        {
+            RaycastHit hit;
+            
+            if (Physics.Raycast(spotlight.transform.position, spotlight.transform.forward, out hit,Mathf.Infinity))
+            {
+                Debug.DrawRay(spotlight.transform.position, spotlight.transform.forward, Color.red, Mathf.Infinity);
 
-    
+                GameObject EnemyAIhitbyraycast = hit.transform.gameObject;
+                if (EnemyAIhitbyraycast.GetComponent<EnemyAI>())
+                {
+                    EnemyAI AI = EnemyAIhitbyraycast.GetComponent<EnemyAI>();
+                    AI.CheckSpotlight();
+                }
+                
+
+            }
+           
+        }
+
+    }
 }
+
 
