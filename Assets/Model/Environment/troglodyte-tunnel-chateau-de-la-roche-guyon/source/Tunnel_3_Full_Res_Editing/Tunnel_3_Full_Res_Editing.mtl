@@ -1,0 +1,32 @@
+#
+# Studio
+#
+# Materials for the file "Tunnel_3_Full_Res_Editing.obj"
+#
+
+
+newmtl default
+   Ka 0.5000000000 0.5000000000 0.5000000000
+   Kd 0.5000000000 0.5000000000 0.5000000000
+   Ks 0.5000000000 0.5000000000 0.5000000000
+   Tf 0.5000000000 0.5000000000 0.5000000000
+   illum 1
+   d 1
+   Ns 6
+   sharpness 60
+   Ni 1
+
+newmtl m1
+   Ka 0.5000000000 0.5000000000 0.5000000000
+   Kd 0.5000000000 0.5000000000 0.5000000000
+   Ks 0.5000000000 0.5000000000 0.5000000000
+   Tf 0.5000000000 0.5000000000 0.5000000000
+   illum 1
+   d 1
+   Ns 6
+   sharpness 60
+   Ni 1
+   map_Kd Tunnel_3_Full_Res_EditingImage1.jpg
+   map_bump Tunnel_3_Full_Res_EditingBump1.jpg
+
+# end of file

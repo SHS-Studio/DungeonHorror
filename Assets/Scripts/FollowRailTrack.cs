@@ -11,12 +11,12 @@ public class FollowRailTrack : MonoBehaviour
     public float speed = 5f;          // Movement speed
     public float reachThreshold = 0.1f; // Distance to waypoint to consider it reached
 
-    private int currentWaypointIndex = 0; // Current waypoint being targeted
+    public int currentWaypointIndex = 0; // Current waypoint being targeted
 
     [Header("Platform Settings")]
     public GameObject platform;       // Reference to the platform object
     public float platformLength = 10f; // Length to move the platform forward
-    public int waypointCountPerPlatform = 5; // Number of waypoints per platform
+  
 
     private Vector3 initialPlatformPosition;
 
@@ -68,6 +68,7 @@ public class FollowRailTrack : MonoBehaviour
             {
                 currentWaypointIndex = 0; // Reset to the first waypoint
                 MovePlatformForward();
+               
             }
         }
 
@@ -83,7 +84,7 @@ public class FollowRailTrack : MonoBehaviour
         // Move the platform forward
         Vector3 forwardOffset = new Vector3(0, 0, platformLength);
         platform.transform.position += forwardOffset;
-        platform.transform.rotation = Quaternion.Euler(0,-90,0);
+        platform.transform.rotation = Quaternion.Euler(0,0,0);
 
         // Adjust waypoints positions to match the new platform position
         for (int i = 0; i < waypoints.Count; i++)

@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 36.9, y: 1.74, z: -351.10126}
-  m_LocalScale: {x: 1, y: 1.65, z: 1}
+  m_LocalScale: {x: 4, y: 4, z: 4}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -122,13 +122,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  playerSpotlight: {fileID: 0}
   isActivated: 0
   isAvoidingLight: 0
   normalSpeed: 50
   slowSpeed: 15
-  avoidLightTime: 2
-  avoidDistance: 5
+  avoidLightTime: 3
+  avoidDistance: 500
 --- !u!195 &3827573578959405735
 NavMeshAgent:
   m_ObjectHideFlags: 0

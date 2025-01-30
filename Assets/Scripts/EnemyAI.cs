@@ -6,7 +6,6 @@ using UnityEngine.AI;
 public class EnemyAI : MonoBehaviour
 {
     public Transform target; // Target to follow
-    public Light playerSpotlight; // Player's spotlight
     private NavMeshAgent agent;
     public bool isActivated = false;
     public bool isAvoidingLight = false;
@@ -18,6 +17,7 @@ public class EnemyAI : MonoBehaviour
 
     void Start()
     {
+        target = EnemyManager.instance.Target;
         agent = GetComponent<NavMeshAgent>();
         agent.speed = normalSpeed; // Set initial speed
 
@@ -31,10 +31,7 @@ public class EnemyAI : MonoBehaviour
     {
         if (isActivated && !isAvoidingLight && target != null)
         {
-            if (target != null)
-            {
-                agent.SetDestination(target.position);
-            }
+            agent.SetDestination(target.position);
             agent.speed = normalSpeed;
         }
     }
@@ -56,11 +53,17 @@ public class EnemyAI : MonoBehaviour
     void AvoidSpotlight()
     {
         agent.speed = slowSpeed; // Slow down enemy while avoiding
+
         Vector3 avoidDirection = FindNewPath();
 
-        if (NavMesh.SamplePosition(avoidDirection, out NavMeshHit navHit, avoidDistance, NavMesh.AllAreas))
+        if (avoidDirection != Vector3.zero) // Ensure we found a valid point
         {
-            agent.SetDestination(navHit.position);
+            agent.SetDestination(avoidDirection);
+            Debug.Log("Avoiding light: Moving to " + avoidDirection);
+        }
+        else
+        {
+            Debug.LogWarning("No valid avoidance position found, staying in place!");
         }
 
         Invoke(nameof(ResumeChase), avoidLightTime); // Resume normal chase after time
@@ -68,18 +71,21 @@ public class EnemyAI : MonoBehaviour
 
     Vector3 FindNewPath()
     {
-        Vector3 randomDirection = Random.insideUnitSphere * avoidDistance;
-        randomDirection += transform.position;
-
-        if (NavMesh.SamplePosition(randomDirection, out NavMeshHit navHit, avoidDistance, NavMesh.AllAreas))
+        for (int i = 0; i < 10; i++) // Try multiple times to find a valid position
         {
-            return navHit.position;
+            Vector3 randomDirection = Random.insideUnitSphere * avoidDistance;
+            randomDirection += transform.position;
+
+            if (NavMesh.SamplePosition(randomDirection, out NavMeshHit navHit, avoidDistance, NavMesh.AllAreas))
+            {
+                return navHit.position; // Found a valid position
+            }
         }
 
-        return navHit.position; // Stay in place if no valid path
+        return Vector3.zero; // No valid position found
     }
 
-  public  void ResumeChase()
+    public void ResumeChase()
     {
         isAvoidingLight = false;
         if (target != null)
@@ -87,5 +93,6 @@ public class EnemyAI : MonoBehaviour
             agent.SetDestination(target.position);
         }
         agent.speed = normalSpeed;
+        Debug.Log("Resuming chase.");
     }
 }

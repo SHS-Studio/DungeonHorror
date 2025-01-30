@@ -6,23 +6,25 @@ public class EnemyGeneration : MonoBehaviour
 {
     public GameObject enemyPrefab; // Enemy prefab to spawn
     public BoxCollider spawnArea; // Box collider defining spawn area
-    public float spawnInterval = 5f; // Time between spawns
+    public float waveInterval = 10f; // Time between waves
+    public int enemiesPerWave = 5; // Number of enemies per wave
 
     void Start()
     {
-        StartCoroutine(SpawnEnemyRoutine());
+        SpawnWave();
+        StartCoroutine(SpawnWaveRoutine());
     }
 
-    IEnumerator SpawnEnemyRoutine()
+    IEnumerator SpawnWaveRoutine()
     {
         while (true)
         {
-            yield return new WaitForSeconds(spawnInterval);
-            SpawnEnemy();
+            yield return new WaitForSeconds(waveInterval);
+            SpawnWave();
         }
     }
 
-    void SpawnEnemy()
+    void SpawnWave()
     {
         if (enemyPrefab == null || spawnArea == null)
         {
@@ -30,17 +32,19 @@ public class EnemyGeneration : MonoBehaviour
             return;
         }
 
-        Vector3 spawnPosition = GetRandomPointInBounds(spawnArea.bounds);
-        GameObject newEnemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
-
-       
+        for (int i = 0; i < enemiesPerWave; i++)
+        {
+            Vector3 spawnPosition = GetRandomPointInBounds(spawnArea.bounds);
+            Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
+        }
     }
 
     Vector3 GetRandomPointInBounds(Bounds bounds)
     {
         float x = Random.Range(bounds.min.x, bounds.max.x);
-        float y = bounds.min.y; // Keep Y consistent to avoid floating enemies
+        float y =  2.24f; // Keep Y consistent to avoid floating enemies
         float z = Random.Range(bounds.min.z, bounds.max.z);
         return new Vector3(x, y, z);
     }
 }
+
