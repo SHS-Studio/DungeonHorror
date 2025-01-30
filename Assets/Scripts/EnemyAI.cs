@@ -15,8 +15,11 @@ public class EnemyAI : MonoBehaviour
     public float avoidLightTime = 2f; // Time spent avoiding light
     public float avoidDistance = 5f; // How far enemy moves to avoid
 
+    public Animator animator;
+
     void Start()
     {
+        animator = GetComponent<Animator>();
         target = EnemyManager.instance.Target;
         agent = GetComponent<NavMeshAgent>();
         agent.speed = normalSpeed; // Set initial speed
@@ -33,6 +36,8 @@ public class EnemyAI : MonoBehaviour
         {
             agent.SetDestination(target.position);
             agent.speed = normalSpeed;
+            animator.SetBool("Idel", true);
+            animator.SetTrigger("Run");
         }
     }
 
@@ -41,6 +46,7 @@ public class EnemyAI : MonoBehaviour
         if (!isActivated)
         {
             isActivated = true; // Activate enemy
+            animator.SetBool("Idel", true);
         }
 
         if (!isAvoidingLight)
@@ -53,7 +59,7 @@ public class EnemyAI : MonoBehaviour
     void AvoidSpotlight()
     {
         agent.speed = slowSpeed; // Slow down enemy while avoiding
-
+        animator.SetTrigger("Walk");
         Vector3 avoidDirection = FindNewPath();
 
         if (avoidDirection != Vector3.zero) // Ensure we found a valid point
@@ -93,6 +99,7 @@ public class EnemyAI : MonoBehaviour
             agent.SetDestination(target.position);
         }
         agent.speed = normalSpeed;
+        animator.SetTrigger("Run");
         Debug.Log("Resuming chase.");
     }
 }

@@ -153,6 +153,34 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2028967872}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &139319436 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2055740942067037668, guid: f58e1821924a4ae4b87f5f058f80694b, type: 3}
+  m_PrefabInstance: {fileID: 1984975571}
+  m_PrefabAsset: {fileID: 0}
+--- !u!136 &139319437
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 139319436}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.182579
+  m_Height: 8.5156975
+  m_Direction: 1
+  m_Center: {x: -0.03993988, y: 3.7578487, z: 0}
 --- !u!4 &223461607 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8898951906534779497, guid: eb52c7661ae626a4cb9d43bad8b7fcd4, type: 3}
@@ -656,7 +684,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7de4acccf2cdc949bbe82dff3103e66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 1813612472839183080, guid: f6b1beac33641494d838bd8a7a91e760, type: 3}
+  enemyPrefab: {fileID: 2055740942067037668, guid: f58e1821924a4ae4b87f5f058f80694b, type: 3}
   spawnArea: {fileID: 9111340204215795137}
   waveInterval: 10
   enemiesPerWave: 15
@@ -3207,6 +3235,74 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2028967872}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1984975571
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 476040249220819865, guid: f58e1821924a4ae4b87f5f058f80694b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 96.71
+      objectReference: {fileID: 0}
+    - target: {fileID: 476040249220819865, guid: f58e1821924a4ae4b87f5f058f80694b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 476040249220819865, guid: f58e1821924a4ae4b87f5f058f80694b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 13.82
+      objectReference: {fileID: 0}
+    - target: {fileID: 476040249220819865, guid: f58e1821924a4ae4b87f5f058f80694b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 476040249220819865, guid: f58e1821924a4ae4b87f5f058f80694b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 476040249220819865, guid: f58e1821924a4ae4b87f5f058f80694b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 476040249220819865, guid: f58e1821924a4ae4b87f5f058f80694b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 476040249220819865, guid: f58e1821924a4ae4b87f5f058f80694b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 476040249220819865, guid: f58e1821924a4ae4b87f5f058f80694b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 476040249220819865, guid: f58e1821924a4ae4b87f5f058f80694b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1590861553138215642, guid: f58e1821924a4ae4b87f5f058f80694b, type: 3}
+      propertyPath: m_Height
+      value: 8.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 1590861553138215642, guid: f58e1821924a4ae4b87f5f058f80694b, type: 3}
+      propertyPath: m_Radius
+      value: 1.23
+      objectReference: {fileID: 0}
+    - target: {fileID: 2055740942067037668, guid: f58e1821924a4ae4b87f5f058f80694b, type: 3}
+      propertyPath: m_Name
+      value: Whiteclown N Hallin
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2055740942067037668, guid: f58e1821924a4ae4b87f5f058f80694b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 139319437}
+  m_SourcePrefab: {fileID: 100100000, guid: f58e1821924a4ae4b87f5f058f80694b, type: 3}
 --- !u!1 &2028967871
 GameObject:
   m_ObjectHideFlags: 0
@@ -4775,7 +4871,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6515280033911359011}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1526475bb42966c46818f413a83d4ea2, type: 3}
   m_Name: 
@@ -18687,3 +18783,4 @@ SceneRoots:
   - {fileID: 2028967872}
   - {fileID: 8053970225717162983}
   - {fileID: 1462486901126061134}
+  - {fileID: 1984975571}
