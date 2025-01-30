@@ -36,7 +36,7 @@ public class EnemyAI : MonoBehaviour
         {
             agent.SetDestination(target.position);
             agent.speed = normalSpeed;
-            animator.SetBool("Idel", true);
+           // animator.SetBool("Idel", false);
             animator.SetTrigger("Run");
         }
     }
@@ -46,7 +46,7 @@ public class EnemyAI : MonoBehaviour
         if (!isActivated)
         {
             isActivated = true; // Activate enemy
-            animator.SetBool("Idel", true);
+            animator.SetTrigger("Idel");
         }
 
         if (!isAvoidingLight)
@@ -65,6 +65,7 @@ public class EnemyAI : MonoBehaviour
         if (avoidDirection != Vector3.zero) // Ensure we found a valid point
         {
             agent.SetDestination(avoidDirection);
+            animator.SetTrigger("Walk");
             Debug.Log("Avoiding light: Moving to " + avoidDirection);
         }
         else

@@ -494,7 +494,7 @@ GameObject:
   - component: {fileID: 7470812018887247446}
   m_Layer: 0
   m_Name: Whiteclown N Hallin
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -556,6 +556,7 @@ MonoBehaviour:
   slowSpeed: 15
   avoidLightTime: 3
   avoidDistance: 500
+  animator: {fileID: 0}
 --- !u!195 &1590861553138215642
 NavMeshAgent:
   m_ObjectHideFlags: 0
