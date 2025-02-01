@@ -14,7 +14,7 @@ public class FlashLight : MonoBehaviour
     private bool isFlickering = false;
     public float RayMaxdistance = 300;
     public int raysCount = 60;
-    public float EnemyActivateTime;
+    GameObject EnemyAIhitbyraycast;
     void Start()
     {
         PickUpManager.instance.CurntBatteryLevel = batteryLevel;
@@ -96,18 +96,24 @@ public class FlashLight : MonoBehaviour
                 {
                     Debug.DrawRay(spotlight.transform.position, rayDirection, Color.red, RayMaxdistance);
 
-                    GameObject EnemyAIhitbyraycast = hit.transform.gameObject;
+                    EnemyAIhitbyraycast = hit.transform.gameObject;
                     if (EnemyAIhitbyraycast.GetComponent<EnemyAI>())
                     {
-                        yield return new WaitForSeconds(EnemyActivateTime);
+                        EnemyManager.instance.IsSpoted = true;
+                        // yield return new WaitForSeconds(EnemyActivateTime);
                         EnemyAI AI = EnemyAIhitbyraycast.GetComponent<EnemyAI>();
                         Debug.Log(EnemyAIhitbyraycast.name);
                         AI.CheckSpotlight();
+
                     }
-
-
-
+                    else
+                    {
+                        EnemyManager.instance.IsSpoted = false;
+                    }
                 }
+               
+ 
+
             }
 
             yield return null;

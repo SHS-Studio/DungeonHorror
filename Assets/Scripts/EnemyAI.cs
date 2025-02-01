@@ -8,21 +8,24 @@ public class EnemyAI : MonoBehaviour
     public Transform target; // Target to follow
     private NavMeshAgent agent;
     public bool isActivated = false;
-    public bool isAvoidingLight = false;
 
     public float normalSpeed = 5f;
     public float slowSpeed = 2f;
-    public float avoidLightTime = 2f; // Time spent avoiding light
-    public float avoidDistance = 5f; // How far enemy moves to avoid
+
+    public float avoidDistance = 5f; // How far enemy moves to avoid light
+
+    public float attackRange = 1.5f; // Attack range
+    public float attackCooldown = 1.5f; // Time between attacks
 
     public Animator animator;
+    private float lastAttackTime;
+    public bool IsAttacking = false;    
 
     void Start()
     {
         animator = GetComponent<Animator>();
         target = EnemyManager.instance.Target;
         agent = GetComponent<NavMeshAgent>();
-        agent.speed = normalSpeed; // Set initial speed
 
         if (target == null)
         {
@@ -32,12 +35,26 @@ public class EnemyAI : MonoBehaviour
 
     void Update()
     {
-        if (isActivated && !isAvoidingLight && target != null)
+        if (isActivated)
         {
-            agent.SetDestination(target.position);
-            agent.speed = normalSpeed;
-           // animator.SetBool("Idel", false);
-            animator.SetTrigger("Run");
+            if (!EnemyManager.instance.IsSpoted )
+            {
+                if(!IsAttacking)
+                {
+                    FindingTarget();
+                }
+             
+            }
+            else
+            {
+                if (!IsAttacking)
+                {
+                    ChaseTarget();
+                }
+               
+            }
+
+            Attack();
         }
     }
 
@@ -46,17 +63,11 @@ public class EnemyAI : MonoBehaviour
         if (!isActivated)
         {
             isActivated = true; // Activate enemy
-            animator.SetTrigger("Idel");
-        }
-
-        if (!isAvoidingLight)
-        {
-            isAvoidingLight = true;
-            AvoidSpotlight();
+           //ChaseTarget();
         }
     }
 
-    void AvoidSpotlight()
+    void FindingTarget()
     {
         agent.speed = slowSpeed; // Slow down enemy while avoiding
         animator.SetTrigger("Walk");
@@ -65,7 +76,6 @@ public class EnemyAI : MonoBehaviour
         if (avoidDirection != Vector3.zero) // Ensure we found a valid point
         {
             agent.SetDestination(avoidDirection);
-            animator.SetTrigger("Walk");
             Debug.Log("Avoiding light: Moving to " + avoidDirection);
         }
         else
@@ -73,7 +83,18 @@ public class EnemyAI : MonoBehaviour
             Debug.LogWarning("No valid avoidance position found, staying in place!");
         }
 
-        Invoke(nameof(ResumeChase), avoidLightTime); // Resume normal chase after time
+        // Once the enemy reaches the avoid point, resume chasing the target
+        if (Vector3.Distance(transform.position, avoidDirection) < 0.5f)
+        {
+          //  ChaseTarget();
+        }
+    }
+
+    void ChaseTarget()
+    {
+        agent.SetDestination(target.position);
+        agent.speed = normalSpeed;
+        animator.SetTrigger("Run");
     }
 
     Vector3 FindNewPath()
@@ -81,26 +102,48 @@ public class EnemyAI : MonoBehaviour
         for (int i = 0; i < 10; i++) // Try multiple times to find a valid position
         {
             Vector3 randomDirection = Random.insideUnitSphere * avoidDistance;
-            randomDirection += transform.position;
+            randomDirection += agent.transform.position;
 
             if (NavMesh.SamplePosition(randomDirection, out NavMeshHit navHit, avoidDistance, NavMesh.AllAreas))
             {
                 return navHit.position; // Found a valid position
             }
         }
-
         return Vector3.zero; // No valid position found
     }
 
-    public void ResumeChase()
+    void Attack()
     {
-        isAvoidingLight = false;
-        if (target != null)
+        if (Vector3.Distance(transform.position, target.position) <= attackRange)
         {
-            agent.SetDestination(target.position);
+            if (Time.time >= lastAttackTime + attackCooldown)
+            {
+                Collider[] hitColliders = Physics.OverlapSphere(transform.position, attackRange);
+                foreach (var hitCollider in hitColliders)
+                {
+                    if (hitCollider.transform == transform)
+                    {
+                        IsAttacking = true; 
+                        transform.LookAt(hitCollider.transform.position);
+                        animator.SetTrigger("Scream");
+                        Debug.Log("Enemy is attacking the target!");
+                        lastAttackTime = Time.time;
+                        break;
+                    }
+                    else
+                    {
+                        IsAttacking = false;
+                    }
+                   
+                }
+            }
         }
-        agent.speed = normalSpeed;
-        animator.SetTrigger("Run");
-        Debug.Log("Resuming chase.");
+    }
+
+    // Draw Attack Radius in Scene View
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, attackRange);
     }
 }
