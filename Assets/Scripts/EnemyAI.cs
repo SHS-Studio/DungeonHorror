@@ -2,9 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+public enum EnemytYPE
+{
+    LightChaser,
+    LightAvoider
+
+}
 
 public class EnemyAI : MonoBehaviour
 {
+    public EnemytYPE type;  
     public Transform target; // Target to follow
     private NavMeshAgent agent;
     public bool isActivated = false;
@@ -20,6 +27,8 @@ public class EnemyAI : MonoBehaviour
     public Animator animator;
     private float lastAttackTime;
     public bool IsAttacking = false;    
+
+
 
     void Start()
     {
@@ -37,25 +46,50 @@ public class EnemyAI : MonoBehaviour
     {
         if (isActivated)
         {
-            if (!EnemyManager.instance.IsSpoted )
+            switch (type)
             {
-                if(!IsAttacking)
-                {
-                    FindingTarget();
-                }
-             
-            }
-            else
-            {
-                if (!IsAttacking)
-                {
-                    ChaseTarget();
-                }
-               
+                case EnemytYPE.LightChaser:
+                    if (!EnemyManager.instance.IsSpoted)
+                    {
+                        if (!IsAttacking)
+                        {
+                            FindingTarget();
+                        }
+
+                    }
+                    else
+                    {
+                        if (!IsAttacking)
+                        {
+                            ChaseTarget();
+                        }
+
+                    }
+                    break;
+                case EnemytYPE.LightAvoider:
+                    if (!EnemyManager.instance.IsSpoted)
+                    {
+                        if (!IsAttacking)
+                        {
+                            ChaseTarget();
+                        }
+
+                    }
+                    else
+                    {
+                        if (!IsAttacking)
+                        {
+                            FindingTarget();
+                        }
+
+                    }
+
+                    break;
             }
 
             Attack();
         }
+
     }
 
     public void CheckSpotlight()
@@ -82,14 +116,8 @@ public class EnemyAI : MonoBehaviour
         {
             Debug.LogWarning("No valid avoidance position found, staying in place!");
         }
-
-        // Once the enemy reaches the avoid point, resume chasing the target
-        if (Vector3.Distance(transform.position, avoidDirection) < 0.5f)
-        {
-          //  ChaseTarget();
-        }
     }
-
+    
     void ChaseTarget()
     {
         agent.SetDestination(target.position);
@@ -126,8 +154,10 @@ public class EnemyAI : MonoBehaviour
                         IsAttacking = true; 
                         transform.LookAt(hitCollider.transform.position);
                         animator.SetTrigger("Scream");
+                        PickUpManager.instance.CurntBatteryLevel -= 5;
                         Debug.Log("Enemy is attacking the target!");
                         lastAttackTime = Time.time;
+                        Destroy(gameObject,2);
                         break;
                     }
                     else

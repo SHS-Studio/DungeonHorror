@@ -33,7 +33,7 @@ public class FlashLight : MonoBehaviour
     {
         LightSettings();
         DrainBattery();
-       StartCoroutine(ActivateEnemy());
+        StartCoroutine(ActivateEnemy());
     }
 
     public void LightSettings()
@@ -85,40 +85,37 @@ public class FlashLight : MonoBehaviour
     {
         if (spotlight != null && spotlight.enabled)
         {
-            RaycastHit hit;
-         
-            for (int i = 0; i < raysCount; i++)
-            {
-                float angle = ((float)i / (raysCount - 1) - 0.5f) * spotlight.spotAngle; // Spread rays within the cone
-                Quaternion rotation = Quaternion.AngleAxis(angle, spotlight.transform.up);
-                Vector3 rayDirection = rotation * spotlight.transform.forward;
-                if (Physics.Raycast(spotlight.transform.position, rayDirection, out hit, RayMaxdistance))
-                {
-                    Debug.DrawRay(spotlight.transform.position, rayDirection, Color.red, RayMaxdistance);
+            Collider[] hitColliders = Physics.OverlapSphere(spotlight.transform.position, RayMaxdistance);
+            Vector3 spotlightDirection = spotlight.transform.forward;
+            float halfAngle = spotlight.spotAngle /*/ 2f*/;
 
-                    EnemyAIhitbyraycast = hit.transform.gameObject;
+            foreach (Collider col in hitColliders)
+            {
+                Vector3 toTarget = (col.transform.position - spotlight.transform.position).normalized;
+                float angleToTarget = Vector3.Angle(spotlightDirection, toTarget);
+
+                // Check if the object is within the cone
+                if (angleToTarget <= halfAngle)
+                {
+                    Debug.DrawRay(spotlight.transform.position, toTarget * RayMaxdistance, Color.red, 0.1f);
+
+                    EnemyAIhitbyraycast = col.gameObject;
                     if (EnemyAIhitbyraycast.GetComponent<EnemyAI>())
                     {
                         EnemyManager.instance.IsSpoted = true;
-                        // yield return new WaitForSeconds(EnemyActivateTime);
                         EnemyAI AI = EnemyAIhitbyraycast.GetComponent<EnemyAI>();
                         Debug.Log(EnemyAIhitbyraycast.name);
                         AI.CheckSpotlight();
-
                     }
                     else
                     {
                         EnemyManager.instance.IsSpoted = false;
                     }
                 }
-               
- 
-
             }
 
             yield return null;
         }
-
     }
 }
 

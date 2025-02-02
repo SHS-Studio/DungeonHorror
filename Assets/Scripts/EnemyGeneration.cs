@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyGeneration : MonoBehaviour
 {
-    public GameObject enemyPrefab; // Enemy prefab to spawn
+    public GameObject[] enemyPrefab; // Enemy prefab to spawn
     public BoxCollider spawnArea; // Box collider defining spawn area
     public float waveInterval = 10f; // Time between waves
     public int enemiesPerWave = 5; // Number of enemies per wave
@@ -34,8 +34,16 @@ public class EnemyGeneration : MonoBehaviour
 
         for (int i = 0; i < enemiesPerWave; i++)
         {
-            Vector3 spawnPosition = GetRandomPointInBounds(spawnArea.bounds);
-            Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
+            //for (int j = 0; j < enemyPrefab.Length; j++)
+            //{
+            //    Vector3 spawnPosition = GetRandomPointInBounds(spawnArea.bounds);
+            //    Instantiate(enemyPrefab[j], spawnPosition, Quaternion.identity);
+            //}
+            foreach (GameObject enemytype in enemyPrefab)
+            {
+                Vector3 spawnPosition = GetRandomPointInBounds(spawnArea.bounds);
+                Instantiate(enemytype, spawnPosition, Quaternion.identity);
+            }
         }
     }
 
