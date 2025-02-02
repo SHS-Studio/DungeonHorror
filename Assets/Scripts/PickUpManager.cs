@@ -10,6 +10,7 @@ public class PickUpManager : MonoBehaviour
     public int totalpistolammo;
     public int totalrifelammo;
 
+
     [Header("Battery")]
     public float CurntBatteryLevel;
     public float Chargingpercentage;

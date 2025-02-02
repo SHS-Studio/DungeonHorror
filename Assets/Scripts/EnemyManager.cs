@@ -8,7 +8,6 @@ public class EnemyManager : MonoBehaviour
 {
     public static EnemyManager instance { get; set; }
     public Transform Target;
-
     public bool IsSpoted = false;
  
     public void Awake()

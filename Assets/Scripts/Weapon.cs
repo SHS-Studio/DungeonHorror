@@ -32,9 +32,11 @@ public class Weapon : MonoBehaviour
     public Transform attackPoint; // Point of attack origin (used for ranged/magic)
     public Animator m_animator;
     public GameObject Muzzeleffect;
-    public float damage = 10f;
+
 
     [Header("Shooting")]
+    public float Pistoldamge;
+    public float Rifeldamge;
     public bool Isshooting;
     public bool readytoShoot;
     public float shootingDelay;// Attacks per second
@@ -91,6 +93,7 @@ public class Weapon : MonoBehaviour
             Reload();
             Autoreload();
             Emptyshot();
+            damage();
         }  
     }
 
@@ -314,5 +317,26 @@ public class Weapon : MonoBehaviour
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(attackPoint.position, meleeRange);
         }
+    }
+
+    public float damage()
+    {
+        switch (thisWeaponModel)
+        {
+            case WeaponModel.Pistol:
+                WeaqponManager.instance.damage = Pistoldamge;
+                break;
+            case WeaponModel.Rifel:
+                 WeaqponManager.instance.damage = Rifeldamge;
+                break;
+            case WeaponModel.SMG:
+                break;
+            case WeaponModel.HMG:
+                break;
+            default:
+                break;
+        }
+
+        return WeaqponManager.instance.damage;
     }
 }

@@ -27,6 +27,7 @@ public class EnemyAI : MonoBehaviour
     public Animator animator;
     private float lastAttackTime;
     public bool IsAttacking = false;    
+    public bool IsSpoted = false;    
 
 
 
@@ -49,7 +50,7 @@ public class EnemyAI : MonoBehaviour
             switch (type)
             {
                 case EnemytYPE.LightChaser:
-                    if (!EnemyManager.instance.IsSpoted)
+                    if (/*!EnemyManager.instance.IsSpoted*/ !IsSpoted)
                     {
                         if (!IsAttacking)
                         {
@@ -67,7 +68,7 @@ public class EnemyAI : MonoBehaviour
                     }
                     break;
                 case EnemytYPE.LightAvoider:
-                    if (!EnemyManager.instance.IsSpoted)
+                    if (/*!EnemyManager.instance.IsSpoted*/ !IsSpoted)
                     {
                         if (!IsAttacking)
                         {

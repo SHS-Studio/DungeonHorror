@@ -1971,6 +1971,7 @@ MonoBehaviour:
   activeSlot: {fileID: 0}
   canSwitchWeapons: 0
   bulletimpactprefab: {fileID: 0}
+  damage: 0
   m_weapon: {fileID: 0}
 --- !u!1 &1193733134
 GameObject:
@@ -3863,7 +3864,7 @@ Transform:
   m_GameObject: {fileID: 2055740942917837359}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 102.8, y: 0, z: 116.4}
+  m_LocalPosition: {x: 68.4, y: 0, z: 26}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6049,6 +6050,7 @@ GameObject:
   - component: {fileID: 7821754498322516262}
   - component: {fileID: 1590861552428842257}
   - component: {fileID: 7470812017646342557}
+  - component: {fileID: 7821754498322516263}
   m_Layer: 0
   m_Name: Whiteclown N Hallin
   m_TagString: Target
@@ -6075,7 +6077,7 @@ MonoBehaviour:
   - {fileID: 2139684325}
   - {fileID: 1193733135}
   - {fileID: 484918057}
-  speed: 20
+  speed: 100
   reachThreshold: 0.1
   currentWaypointIndex: 0
   platform: {fileID: 8798556203731965863}
@@ -6252,6 +6254,7 @@ MonoBehaviour:
   attackCooldown: 1.5
   animator: {fileID: 0}
   IsAttacking: 0
+  IsSpoted: 0
 --- !u!1 &2170917626696403742
 GameObject:
   m_ObjectHideFlags: 0
@@ -19112,7 +19115,8 @@ MonoBehaviour:
   attackPoint: {fileID: 8953788735150364718}
   m_animator: {fileID: 0}
   Muzzeleffect: {fileID: 2734480131945772461}
-  damage: 10
+  Pistoldamge: 25
+  Rifeldamge: 0
   Isshooting: 1
   readytoShoot: 0
   shootingDelay: 0.4
@@ -19467,6 +19471,7 @@ GameObject:
   - component: {fileID: 2166094735298651487}
   - component: {fileID: 112703315778774675}
   - component: {fileID: 2208241949035743332}
+  - component: {fileID: 6827789030771631581}
   m_Layer: 0
   m_Name: Parasite L Starkie
   m_TagString: Untagged
@@ -21111,7 +21116,7 @@ Transform:
   m_GameObject: {fileID: 5197111668555889869}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 38.1, y: 0, z: 1.3}
+  m_LocalPosition: {x: 142.2, y: 0, z: 8.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -21119,6 +21124,24 @@ Transform:
   - {fileID: 145452371124898512}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6827789030771631581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5197111668555889869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 287f3f8f807532d408aff1b397f29ffb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHP: 110
+  curntHP: 0
+  dropItems:
+  - {fileID: 7126207113072580522, guid: eb52c7661ae626a4cb9d43bad8b7fcd4, type: 3}
+  - {fileID: 8779746745227906517, guid: c7ef9162bb0fa5a4bb46d1271ef66b42, type: 3}
+  - {fileID: 38980084197581065, guid: 20a4996313d21e14dad0b589129129e2, type: 3}
 --- !u!4 &6858666663285609269
 Transform:
   m_ObjectHideFlags: 0
@@ -21997,6 +22020,25 @@ MonoBehaviour:
   attackCooldown: 1.5
   animator: {fileID: 0}
   IsAttacking: 0
+  IsSpoted: 0
+--- !u!114 &7821754498322516263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2055740942917837359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 287f3f8f807532d408aff1b397f29ffb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHP: 100
+  curntHP: 0
+  dropItems:
+  - {fileID: 7126207113072580522, guid: eb52c7661ae626a4cb9d43bad8b7fcd4, type: 3}
+  - {fileID: 38980084197581065, guid: 20a4996313d21e14dad0b589129129e2, type: 3}
+  - {fileID: 8779746745227906517, guid: c7ef9162bb0fa5a4bb46d1271ef66b42, type: 3}
 --- !u!1 &7847124898986660193
 GameObject:
   m_ObjectHideFlags: 0
@@ -22118,7 +22160,8 @@ MonoBehaviour:
   attackPoint: {fileID: 3532009906218437522}
   m_animator: {fileID: 0}
   Muzzeleffect: {fileID: 620190081427297142}
-  damage: 10
+  Pistoldamge: 0
+  Rifeldamge: 10
   Isshooting: 1
   readytoShoot: 0
   shootingDelay: 0.1

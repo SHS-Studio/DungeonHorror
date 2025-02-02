@@ -102,14 +102,17 @@ public class FlashLight : MonoBehaviour
                     EnemyAIhitbyraycast = col.gameObject;
                     if (EnemyAIhitbyraycast.GetComponent<EnemyAI>())
                     {
-                        EnemyManager.instance.IsSpoted = true;
+                     //   EnemyManager.instance.IsSpoted = true;
                         EnemyAI AI = EnemyAIhitbyraycast.GetComponent<EnemyAI>();
                         Debug.Log(EnemyAIhitbyraycast.name);
+                        AI.IsSpoted = true;
                         AI.CheckSpotlight();
                     }
                     else
                     {
-                        EnemyManager.instance.IsSpoted = false;
+                        EnemyAI AI = GameObject.FindObjectOfType<EnemyAI>();
+                        AI.IsSpoted = false;
+                       // EnemyManager.instance.IsSpoted = false;
                     }
                 }
             }

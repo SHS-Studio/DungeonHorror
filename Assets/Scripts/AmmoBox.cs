@@ -9,6 +9,7 @@ public enum AmmoType
 public class AmmoBox : MonoBehaviour
 {
     public int AmmoAmnt;
+    public int damage;
     public AmmoType ammotype;
     // Start is called before the first frame update
     void Start()

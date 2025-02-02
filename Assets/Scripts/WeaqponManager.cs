@@ -14,6 +14,7 @@ public class WeaqponManager : MonoBehaviour
 
 
     public GameObject bulletimpactprefab;
+    public float damage;
     public Weapon m_weapon;
 
     public void Awake()
@@ -119,7 +120,5 @@ public class WeaqponManager : MonoBehaviour
             }
         }
     }
-
-   
-
+ 
 }

@@ -10,6 +10,7 @@ public class Bullet : MonoBehaviour
         {
             print("hIt" + coll.gameObject.name + "Tuki");
             CreateBulletEffectImpact(coll);
+            coll.gameObject.GetComponent<EnemyHP>().Takedamage(WeaqponManager.instance.damage);
             Destroy(gameObject);
         }
         if (coll.gameObject.CompareTag("Environment"))
