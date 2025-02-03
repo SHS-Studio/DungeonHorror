@@ -15,6 +15,9 @@ public class PickUpManager : MonoBehaviour
     public float CurntBatteryLevel;
     public float Chargingpercentage;
 
+    [Header("Puzzel")]
+    public int puzelpiece;
+    public int totalpiececount;
 
     public void Awake()
     {
@@ -57,6 +60,16 @@ public class PickUpManager : MonoBehaviour
         Chargingpercentage = battery.BatteryChargingPercentage;
         CurntBatteryLevel += Chargingpercentage;
         CurntBatteryLevel = Mathf.Clamp(CurntBatteryLevel, 0f, 100f);
+    }
+
+    public void PickUppuzzelpieces(PuzzelPiece pieces)
+    {
+        pieces = pieces.GetComponent<PuzzelPiece>();
+        Puzzelmanager.instance.PickUpPuzzelpieces(pieces.gameObject);
+        puzelpiece = pieces.puzzelpieceID; 
+        totalpiececount++;
+
+       
     }
 
 

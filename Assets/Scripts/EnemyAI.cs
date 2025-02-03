@@ -179,9 +179,9 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    // Draw Attack Radius in Scene View
     private void OnDrawGizmosSelected()
-    {
+    {    // Draw Attack Radius in Scene View
+
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRange);
 

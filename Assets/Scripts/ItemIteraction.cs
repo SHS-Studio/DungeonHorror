@@ -9,6 +9,7 @@ public class ItemIteraction : MonoBehaviour
     public Weapon HoveredWeapon = null;
     public AmmoBox HoveredammoBox = null;
     public BatteryPercentage HoveredBattery = null;
+    public PuzzelPiece HoveredPiece = null;
 
     public void Awake()
     {
@@ -116,6 +117,18 @@ public class ItemIteraction : MonoBehaviour
                 }
             }
 
+            // PickUp Puzzel Pices
+            if (objecthitbyraycast.GetComponent<PuzzelPiece>())
+            {
+                HoveredPiece = objecthitbyraycast.gameObject.GetComponent<PuzzelPiece>();
+                HoveredPiece.GetComponent<Outline>().enabled = true;
+                if (Input.GetKeyDown(KeyCode.F))
+                {
+                    PickUpManager.instance.PickUppuzzelpieces(HoveredPiece);
+                    Destroy(objecthitbyraycast.gameObject);
+                }
+            }
+          
         }
     }
 
