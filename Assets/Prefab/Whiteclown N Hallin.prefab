@@ -491,7 +491,9 @@ GameObject:
   - component: {fileID: 437929235171544482}
   - component: {fileID: 7821754497069883117}
   - component: {fileID: 1590861553138215642}
+  - component: {fileID: -2857637339867058525}
   - component: {fileID: 7470812018887247446}
+  - component: {fileID: 5747491488227764022}
   m_Layer: 0
   m_Name: Whiteclown N Hallin
   m_TagString: Target
@@ -559,9 +561,8 @@ MonoBehaviour:
   attackCooldown: 1.5
   animator: {fileID: 0}
   IsAttacking: 0
-  isSpotted: 0
-  m_IsTargetFound: 0
-  targetTransform: {fileID: 0}
+  IsSpoted: 0
+  IsTargetFound: 0
 --- !u!195 &1590861553138215642
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -584,6 +585,24 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &-2857637339867058525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2055740942067037668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 287f3f8f807532d408aff1b397f29ffb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHP: 100
+  currentHP: 0
+  dropItems:
+  - {fileID: 7126207113072580522, guid: eb52c7661ae626a4cb9d43bad8b7fcd4, type: 3}
+  - {fileID: 8779746745227906517, guid: c7ef9162bb0fa5a4bb46d1271ef66b42, type: 3}
+  - {fileID: 38980084197581065, guid: 20a4996313d21e14dad0b589129129e2, type: 3}
 --- !u!136 &7470812018887247446
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -607,6 +626,24 @@ CapsuleCollider:
   m_Height: 8.5156975
   m_Direction: 1
   m_Center: {x: -0.03993988, y: 3.7578487, z: 0}
+--- !u!114 &5747491488227764022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2055740942067037668}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 1, g: 0, b: 0, a: 1}
+  outlineWidth: 5
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!1 &2249115021628809027
 GameObject:
   m_ObjectHideFlags: 0

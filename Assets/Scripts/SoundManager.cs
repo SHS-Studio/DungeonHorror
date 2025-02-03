@@ -9,6 +9,7 @@ public class SoundManager : MonoBehaviour
     public AudioSource ShootingSound;
     public AudioSource ReloadingSound;
     public AudioSource Pistolemptymagsound;
+    public AudioSource Attack;
 
     public AudioClip PistolShot;
     public AudioClip Pistolreload;
@@ -16,7 +17,7 @@ public class SoundManager : MonoBehaviour
     public AudioClip RifelShot;
     public AudioClip Rifellreload;
 
-
+    public AudioClip EnemyScream;
 
     public void Awake()
     {
@@ -54,5 +55,11 @@ public class SoundManager : MonoBehaviour
                 ReloadingSound.PlayOneShot(Rifellreload);
                 break;
         }
+    }
+
+    public void PlayScream()
+    {
+        Attack.PlayOneShot(EnemyScream);
+
     }
 }

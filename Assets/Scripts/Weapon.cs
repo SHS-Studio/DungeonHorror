@@ -200,14 +200,22 @@ public class Weapon : MonoBehaviour
 
     public void Reload()
     {
-        if (Input.GetKey(KeyCode.R) && bulletsleft < magazinesize && !Isreloading && PickUpManager.instance.CheckammoleftFor(thisWeaponModel) > 0 )
+        if (Input.GetKey(KeyCode.R) && bulletsleft < magazinesize && !Isreloading && PickUpManager.instance.CheckammoleftFor(thisWeaponModel) > 0)
         {
+            WeaqponManager.instance.canSwitchWeapons = false;
+            if (UImanager.instance.reload != null)
+            {
+                UImanager.instance.reload.text = "Reloading...";
+            }
             m_animator.SetTrigger("Reload");
-           // SoundManager.instance.Pistolreloadsound.Play();
+            // SoundManager.instance.Pistolreloadsound.Play();
             SoundManager.instance.PlayReloadSound(thisWeaponModel);
             Isreloading = true;
             Invoke("ReloadComplete", reloadtime);
+            
         }
+       
+
     }
 
     public void Autoreload()
@@ -215,8 +223,10 @@ public class Weapon : MonoBehaviour
         // Start auto-reload coroutine if not already running
         if (bulletsleft <= 0 && !Isreloading && PickUpManager.instance.CheckammoleftFor(thisWeaponModel) > 0)
         {
+            WeaqponManager.instance.canSwitchWeapons = false;
             StartCoroutine(AutoreloadWithPenalty());
         }
+       
     }
 
     private IEnumerator AutoreloadWithPenalty()
@@ -267,8 +277,13 @@ public class Weapon : MonoBehaviour
             PickUpManager.instance.DecreaseTotalAmmo(bulletsleft, thisWeaponModel);
 
         }
-       
+       // Clear the message
+        if (UImanager.instance.reload != null)
+        {
+            UImanager.instance.reload.text = "";
+        }
         Isreloading = false;
+        WeaqponManager.instance.canSwitchWeapons = true;
     }
 
     public void ResetShot()

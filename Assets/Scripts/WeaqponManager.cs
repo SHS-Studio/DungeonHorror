@@ -32,6 +32,7 @@ public class WeaqponManager : MonoBehaviour
 
     void Start()
     {
+        canSwitchWeapons = true;
         activeSlot = weaponSlots[0];
     }
 
@@ -39,6 +40,9 @@ public class WeaqponManager : MonoBehaviour
     {
         CheckActiveslots();
         HandleWeaponSwitching();
+      
+
+
     }
 
 
@@ -95,30 +99,34 @@ public class WeaqponManager : MonoBehaviour
 
     void HandleWeaponSwitching()
     {
-        // Scroll wheel input or keyboard input to change weapon slots
-        if (Input.GetAxis("Mouse ScrollWheel") > 0f)
+        if (canSwitchWeapons)
         {
-            
-            Switchactiveslot(0); 
-        }
-        else if (Input.GetAxis("Mouse ScrollWheel") < 0f)
-        {
-            Switchactiveslot(1);
-        }
-
-        // Number key inputs for weapon slots (1 to N)
-        for (int i = 0; i < weaponSlots.Count; i++)
-        {
-            if (Input.GetKeyDown((KeyCode.Alpha1)))
+            // Scroll wheel input or keyboard input to change weapon slots
+            if (Input.GetAxis("Mouse ScrollWheel") > 0f)
             {
+
                 Switchactiveslot(0);
             }
-
-            if (Input.GetKeyDown((KeyCode.Alpha2)))
+            else if (Input.GetAxis("Mouse ScrollWheel") < 0f)
             {
                 Switchactiveslot(1);
             }
+
+            // Number key inputs for weapon slots (1 to N)
+            for (int i = 0; i < weaponSlots.Count; i++)
+            {
+                if (Input.GetKeyDown((KeyCode.Alpha1)))
+                {
+                    Switchactiveslot(0);
+                }
+
+                if (Input.GetKeyDown((KeyCode.Alpha2)))
+                {
+                    Switchactiveslot(1);
+                }
+            }
         }
     }
+     
  
 }

@@ -42,6 +42,11 @@ public class FlashLight : MonoBehaviour
         {
             // Turn off the spotlight when battery is 0
             spotlight.enabled = false;
+            FollowRailTrack  followRailTrack = GameObject.FindObjectOfType<FollowRailTrack>();
+            followRailTrack.speed = 0;
+            EnemyAI ai = GameObject.FindObjectOfType<EnemyAI>();
+            ai.ChaseTarget();
+
         }
         else if (batteryLevel < 10 && !isFlickering)
         {
@@ -67,7 +72,7 @@ public class FlashLight : MonoBehaviour
         }
     }
 
-    IEnumerator FlickerLight()
+    public IEnumerator FlickerLight()
     {
         isFlickering = true;
         while (batteryLevel > 0 && batteryLevel < 10)
@@ -79,6 +84,7 @@ public class FlashLight : MonoBehaviour
         // Ensure the light stays on or off based on battery level
         spotlight.enabled = batteryLevel > 0;
         isFlickering = false;
+
     }
     IEnumerator ActivateEnemy()
     {
@@ -142,8 +148,12 @@ public class FlashLight : MonoBehaviour
             EnemyAIhitbyraycast = collider.gameObject;
 
             enemyAI.IsSpoted = isSpotted;
-            enemyAI.CheckSpotlight();
-            Debug.Log(EnemyAIhitbyraycast.name);
+            if (isSpotted)
+            {
+                enemyAI.CheckSpotlight();
+                Debug.Log(EnemyAIhitbyraycast.name);
+            }
+          
         }
     }
 

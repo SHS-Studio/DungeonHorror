@@ -1325,10 +1325,12 @@ GameObject:
   - component: {fileID: 55056261442865630}
   - component: {fileID: 2166094733917877576}
   - component: {fileID: 112703317629843076}
+  - component: {fileID: 2559191234242926291}
   - component: {fileID: 2208241948193544307}
+  - component: {fileID: -7959228657350753999}
   m_Layer: 0
   m_Name: Parasite L Starkie
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1393,9 +1395,8 @@ MonoBehaviour:
   attackCooldown: 1.5
   animator: {fileID: 0}
   IsAttacking: 0
-  isSpotted: 0
-  m_IsTargetFound: 0
-  targetTransform: {fileID: 0}
+  IsSpoted: 0
+  IsTargetFound: 0
 --- !u!195 &112703317629843076
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1418,6 +1419,24 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &2559191234242926291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5197111667176680666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 287f3f8f807532d408aff1b397f29ffb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHP: 100
+  currentHP: 0
+  dropItems:
+  - {fileID: 7126207113072580522, guid: eb52c7661ae626a4cb9d43bad8b7fcd4, type: 3}
+  - {fileID: 8779746745227906517, guid: c7ef9162bb0fa5a4bb46d1271ef66b42, type: 3}
+  - {fileID: 38980084197581065, guid: 20a4996313d21e14dad0b589129129e2, type: 3}
 --- !u!136 &2208241948193544307
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1441,6 +1460,24 @@ CapsuleCollider:
   m_Height: 8.710791
   m_Direction: 1
   m_Center: {x: 0.007160187, y: 3.8553953, z: 0}
+--- !u!114 &-7959228657350753999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5197111667176680666}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 1, g: 0, b: 0, a: 1}
+  outlineWidth: 5
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!1 &5219247082249066921
 GameObject:
   m_ObjectHideFlags: 0

@@ -70,6 +70,15 @@ public class ItemIteraction : MonoBehaviour
                 {
                     PickUpManager.instance.PickUpAmmo(HoveredammoBox);
                     Destroy(objecthitbyraycast.gameObject);
+                    HoveredBattery = GameObject.FindObjectOfType<BatteryPercentage>();
+                    Destroy(HoveredBattery.gameObject);
+                    AmmoBox[] ammoBox = GameObject.FindObjectsOfType<AmmoBox>();
+                    for (int i = 0; i < ammoBox.Length; i++)
+                    {
+                        Destroy(ammoBox[i].gameObject);
+                    }
+                  
+
                 }
             }
             else
@@ -90,6 +99,12 @@ public class ItemIteraction : MonoBehaviour
                 {
                     PickUpManager.instance.PickUpBattery(HoveredBattery);
                     Destroy(objecthitbyraycast.gameObject);
+                    AmmoBox[] ammoBox = GameObject.FindObjectsOfType<AmmoBox>();
+                    for (int i = 0; i < ammoBox.Length; i++)
+                    {
+                        Destroy(ammoBox[i].gameObject);
+                    }
+
                 }
             }
             else
@@ -103,4 +118,6 @@ public class ItemIteraction : MonoBehaviour
 
         }
     }
+
+  
 }

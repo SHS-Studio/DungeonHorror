@@ -4,60 +4,51 @@ using UnityEngine;
 
 public class EnemyHP : MonoBehaviour
 {
-    public float maxHP = 0;
-    public float curntHP= 0;
-
+    public float maxHP = 100.0f;
+    public float currentHP = 0.0f;
     public GameObject[] dropItems;
-    // Start is called before the first frame update
-    void Start()
+
+    private void Start()
     {
-        curntHP = maxHP;
+        currentHP = maxHP;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void TakeDamage(float damageAmount)
     {
-        maxHP = curntHP;
-        Die();
+        currentHP = Mathf.Clamp(currentHP - damageAmount, 0f, maxHP);
+
+        if (Mathf.Approximately(currentHP, 0.0f))
+            Die();
     }
 
-    public void Takedamage(float damage)
+    private void Die()
     {
-       curntHP -= damage;
-       Mathf.Clamp(damage, 0, curntHP);
+        SpawnDropItems();
+        Destroy(gameObject);
     }
 
-    public void Die()
+    private void SpawnDropItems()
     {
-        int i;
-        if (maxHP <= 0)
+        foreach (GameObject item in dropItems)
         {
-            for ( i = 0; i < 1; i ++)
-            {
-                spawnItemonDeath();
-
-            }
-          
-          Destroy(gameObject);
-        }
-
-    }
-
-    public void spawnItemonDeath()
-    {
-
-        
-        foreach (GameObject item in dropItems) 
-        {
-            GameObject itemclone = Instantiate(item, GetRandomPointInBounds(transform), Quaternion.identity);
+            Vector3 position = GetRandomDropPoint(1.0f, 6.0f);
+            GameObject droppedItem = Instantiate(item, position, Quaternion.identity);
         }
     }
 
-    Vector3 GetRandomPointInBounds(Transform transform)
+    private Vector3 GetRandomDropPoint(float dropMinRadius, float dropMaxRadius)
     {
-        float x = Random.Range(-transform.position.x , transform.position.x );
-        float y = 2.24f; // Keep Y consistent to avoid floating enemies
-        float z = Random.Range(-transform.position.z , transform.position.z );
-        return new Vector3(x, y, z);
+        Vector3 randomDirection = Random.onUnitSphere;
+        randomDirection.y = Mathf.Abs(randomDirection.y);
+        randomDirection.Normalize();
+
+        float randomRadius = Random.Range(dropMinRadius, dropMaxRadius);
+        Vector3 randomPoint = transform.position + randomDirection * randomRadius;
+
+        if (Physics.Raycast(randomPoint, Vector3.down, out RaycastHit hit))
+            randomPoint = hit.point;
+
+        return randomPoint;
     }
 }
+

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Experimental.GlobalIllumination;
 
 public enum EnemytYPE
 {
@@ -94,8 +95,6 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    
-
     void FindingTarget()
     {
         if (IsTargetFound && agent.remainingDistance > agent.stoppingDistance)
@@ -116,8 +115,8 @@ public class EnemyAI : MonoBehaviour
             Debug.LogWarning("No valid avoidance position found, staying in place!");
         }
     }
-    
-    void ChaseTarget()
+
+    public void ChaseTarget()
     {
         agent.SetDestination(target.position);
         agent.speed = normalSpeed;
@@ -156,8 +155,12 @@ public class EnemyAI : MonoBehaviour
                     if (hitCollider.transform == transform)
                     {
                         IsAttacking = true; 
+                        Outline  Outlinerenderer = GetComponent<Outline>();
+                        Outlinerenderer.enabled = true;
                         transform.LookAt(hitCollider.transform.position);
                         animator.SetTrigger("Scream");
+                        SoundManager.instance.PlayScream();
+                        //StartCoroutine(FlickerLight());
                         PickUpManager.instance.CurntBatteryLevel -= 5;
                         Debug.Log("Enemy is attacking the target!");
                         lastAttackTime = Time.time;
@@ -167,6 +170,8 @@ public class EnemyAI : MonoBehaviour
                     else
                     {
                         IsAttacking = false;
+                        Outline Outlinerenderer = GetComponent<Outline>();
+                        Outlinerenderer.enabled = false;
                     }
                    
                 }
@@ -182,5 +187,17 @@ public class EnemyAI : MonoBehaviour
 
         Gizmos.color = Color.magenta;
         Gizmos.DrawWireSphere(transform.position, avoidDistance);
+    }
+
+    public IEnumerator FlickerLight()
+    {
+        if (IsAttacking)
+        {
+            FlashLight light = GameObject.FindObjectOfType<FlashLight>();
+            light.spotlight = null;
+            light.spotlight.enabled = !light.spotlight.enabled;
+            yield return new WaitForSeconds(Random.Range(0.1f, 0.2f));
+        }
+        yield return null;
     }
 }

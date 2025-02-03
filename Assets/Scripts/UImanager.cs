@@ -11,6 +11,7 @@ public class UImanager : MonoBehaviour
 
     public TextMeshProUGUI ammodisplay;
     public TextMeshProUGUI autoreload;
+    public TextMeshProUGUI reload;
     public TextMeshProUGUI MagCount;
     public TextMeshProUGUI Btterychage;
 
