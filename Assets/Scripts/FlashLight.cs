@@ -141,7 +141,7 @@ public class FlashLight : MonoBehaviour
             Debug.DrawRay(spotlight.transform.position, toTarget * RayMaxdistance, isSpotted ? Color.green : Color.red, 0.1f);
             EnemyAIhitbyraycast = collider.gameObject;
 
-            enemyAI.isSpotted = isSpotted;
+            enemyAI.IsSpoted = isSpotted;
             enemyAI.CheckSpotlight();
             Debug.Log(EnemyAIhitbyraycast.name);
         }
