@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 
 public class FlashLight : MonoBehaviour
 {
@@ -33,7 +31,8 @@ public class FlashLight : MonoBehaviour
     {
         LightSettings();
         DrainBattery();
-        StartCoroutine(ActivateEnemy());
+        //StartCoroutine(ActivateEnemy());
+        EnemySpotter();
     }
 
     public void LightSettings()
@@ -118,6 +117,56 @@ public class FlashLight : MonoBehaviour
             }
 
             yield return null;
+        }
+    }
+
+    private void EnemySpotter()
+    {
+        if (spotlight == null || !spotlight.enabled)
+            return;
+
+        float spotLightAngle = spotlight.spotAngle * 0.5f;
+        Vector3 spotLightDirection = spotlight.transform.forward;
+        Collider[] colliders = Physics.OverlapSphere(spotlight.transform.position, RayMaxdistance);
+
+        foreach (Collider collider in colliders)
+        {
+            if (!collider.TryGetComponent(out EnemyAI enemyAI))
+                continue;
+
+            Vector3 toTarget = (collider.transform.position - spotlight.transform.position).normalized;
+            float angleToTarget = Vector3.Angle(spotLightDirection, toTarget);
+            bool isSpotted = angleToTarget <= spotLightAngle;
+
+            Debug.DrawRay(spotlight.transform.position, toTarget * RayMaxdistance, isSpotted ? Color.green : Color.red, 0.1f);
+            EnemyAIhitbyraycast = collider.gameObject;
+
+            enemyAI.isSpotted = isSpotted;
+            enemyAI.CheckSpotlight();
+            Debug.Log(EnemyAIhitbyraycast.name);
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (spotlight != null)
+        {
+#if UNITY_EDITOR
+            float angle = spotlight.spotAngle;
+            Vector3 forward = spotlight.transform.forward;
+            Vector3 up = spotlight.transform.up;
+
+            Vector3 left = Quaternion.AngleAxis(-angle * 0.5f, up) * forward;
+            Vector3 right = Quaternion.AngleAxis(angle * 0.5f, up) * forward;
+
+            Vector3 center = spotlight.transform.position;
+
+            UnityEditor.Handles.color = new(1.0f, 1.0f, 0.0f, 0.1f);
+            UnityEditor.Handles.DrawWireArc(center, up, left, angle, RayMaxdistance);
+
+            UnityEditor.Handles.DrawLine(center, center + left * RayMaxdistance);
+            UnityEditor.Handles.DrawLine(center, center + right * RayMaxdistance);
+#endif
         }
     }
 }

@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+
 public enum EnemytYPE
 {
     LightChaser,
     LightAvoider
-
 }
 
 public class EnemyAI : MonoBehaviour
@@ -27,7 +27,8 @@ public class EnemyAI : MonoBehaviour
     public Animator animator;
     private float lastAttackTime;
     public bool IsAttacking = false;    
-    public bool IsSpoted = false;    
+    public bool IsSpoted = false;
+    public bool IsTargetFound;
 
 
 
@@ -45,52 +46,43 @@ public class EnemyAI : MonoBehaviour
 
     void Update()
     {
-        if (isActivated)
+        if (!isActivated)
+            return;
+
+        switch (type)
         {
-            switch (type)
-            {
-                case EnemytYPE.LightChaser:
-                    if (/*!EnemyManager.instance.IsSpoted*/ !IsSpoted)
-                    {
-                        if (!IsAttacking)
-                        {
-                            FindingTarget();
-                        }
+            case EnemytYPE.LightChaser:
+                if (IsSpoted)
+                {
+                    if (!IsAttacking)
+                        ChaseTarget();
 
-                    }
-                    else
-                    {
-                        if (!IsAttacking)
-                        {
-                            ChaseTarget();
-                        }
+                    IsTargetFound = false;
+                }
+                else
+                {
+                    if (!IsAttacking)
+                        FindingTarget();
+                }
+                break;
 
-                    }
-                    break;
-                case EnemytYPE.LightAvoider:
-                    if (/*!EnemyManager.instance.IsSpoted*/ !IsSpoted)
-                    {
-                        if (!IsAttacking)
-                        {
-                            ChaseTarget();
-                        }
+            case EnemytYPE.LightAvoider:
+                if (IsSpoted)
+                {
+                    if (!IsAttacking)
+                        FindingTarget();
+                }
+                else
+                {
+                    if (!IsAttacking)
+                        ChaseTarget();
 
-                    }
-                    else
-                    {
-                        if (!IsAttacking)
-                        {
-                            FindingTarget();
-                        }
-
-                    }
-
-                    break;
-            }
-
-            Attack();
+                    IsTargetFound = false;
+                }
+                break;
         }
 
+        Attack();
     }
 
     public void CheckSpotlight()
@@ -102,16 +94,22 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
+    
+
     void FindingTarget()
     {
+        if (IsTargetFound && agent.remainingDistance > agent.stoppingDistance)
+            return;
+
         agent.speed = slowSpeed; // Slow down enemy while avoiding
         animator.SetTrigger("Walk");
-        Vector3 avoidDirection = FindNewPath();
+        IsTargetFound = false;
 
-        if (avoidDirection != Vector3.zero) // Ensure we found a valid point
+        if (TryFindNewPath(out Vector3 point)) // Ensure we found a valid point
         {
-            agent.SetDestination(avoidDirection);
-            Debug.Log("Avoiding light: Moving to " + avoidDirection);
+            IsTargetFound = true;
+            agent.SetDestination(point);
+            Debug.Log("Avoiding light: Moving to " + point);
         }
         else
         {
@@ -126,19 +124,24 @@ public class EnemyAI : MonoBehaviour
         animator.SetTrigger("Run");
     }
 
-    Vector3 FindNewPath()
+    bool TryFindNewPath(out Vector3 pointOnNavMesh)
     {
+        static Vector3 AbsY(Vector3 p) => new(p.x, Mathf.Abs(p.y), p.z);
+
         for (int i = 0; i < 10; i++) // Try multiple times to find a valid position
         {
-            Vector3 randomDirection = Random.insideUnitSphere * avoidDistance;
-            randomDirection += agent.transform.position;
+            Vector3 randomPointInsideHemisphere = AbsY(Random.insideUnitSphere);
+            Vector3 randomPosition = agent.transform.position + randomPointInsideHemisphere * avoidDistance;
 
-            if (NavMesh.SamplePosition(randomDirection, out NavMeshHit navHit, avoidDistance, NavMesh.AllAreas))
+            if (NavMesh.SamplePosition(randomPosition, out NavMeshHit navHit, avoidDistance, NavMesh.AllAreas))
             {
-                return navHit.position; // Found a valid position
+                pointOnNavMesh = navHit.position; // Found a valid position
+                return true;
             }
         }
-        return Vector3.zero; // No valid position found
+
+        pointOnNavMesh = Vector3.positiveInfinity;
+        return false; // No valid position found
     }
 
     void Attack()
@@ -176,5 +179,8 @@ public class EnemyAI : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRange);
+
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawWireSphere(transform.position, avoidDistance);
     }
 }
